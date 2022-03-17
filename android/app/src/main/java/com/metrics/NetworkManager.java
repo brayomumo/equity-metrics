@@ -10,33 +10,33 @@ import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
-
-@TargetApi(Build.VERSION_CODES.M)
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class NetworkManager extends ReactContextBaseJavaModule {
 
     NetworkStatsManager networkStatsManager;
     int packageUid;
 
-    public NetworkManager(NetworkStatsManager networkStatsManager, ReactApplicationContext context) {
+    public NetworkManager( ReactApplicationContext context) {
         super(context);
-        this.networkStatsManager = networkStatsManager;
     }
 
     public NetworkManager(NetworkStatsManager networkStatsManager, int packageUid) {
-        this.networkStatsManager = networkStatsManager;
+//        this.networkStatsManager =  NetworkStatsManager;
         this.packageUid = packageUid;
     }
 
     public long getAllRxBytesMobile(Context context) {
         NetworkStats.Bucket bucket;
         try {
-            bucket = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE,
+            bucket = self.networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE,
                     getSubscriberId(context, ConnectivityManager.TYPE_MOBILE),
                     0,
                     System.currentTimeMillis());

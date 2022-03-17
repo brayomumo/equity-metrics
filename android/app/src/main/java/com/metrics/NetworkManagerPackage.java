@@ -23,7 +23,7 @@ public class NetworkManagerPackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
  
-        modules.add(new NetworkManagerPackage(reactContext));
+        modules.add(new NetworkManager(reactContext));
  
         return modules;
     }

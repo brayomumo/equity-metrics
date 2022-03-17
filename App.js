@@ -18,7 +18,7 @@ import {
 export default function App() {
   useEffect(()=>{
     const { NetworkManager } = NativeModules;
-    console.log(NetworkManager);
+    console.error(Object.getOwnPropertyNames( NativeModules ));
   })
   return (
     <SafeAreaView style={styles.container}>
