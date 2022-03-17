@@ -43,77 +43,77 @@ public class MainActivity extends ReactActivity {
 
   // Network stats manager
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    requestPermissions();
-  }
+  // @Override
+  // protected void onResume() {
+  //   super.onResume();
+  //   requestPermissions();
+  // }
 
-  private void requestPermissions() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      if (!hasPermissionToReadNetworkHistory()) {
-        return;
-      }
+  // private void requestPermissions() {
+  //   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+  //     if (!hasPermissionToReadNetworkHistory()) {
+  //       return;
+  //     }
 
-      if (!hasPermissionToReadPhoneStats()) {
-        requestPhoneStateStats();
-        return;
-      }
-    }
-  }
+  //     if (!hasPermissionToReadPhoneStats()) {
+  //       requestPhoneStateStats();
+  //       return;
+  //     }
+  //   }
+  // }
 
-  private boolean hasPermissionToReadNetworkHistory() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-      return true;
-    }
-    final AppOpsManager appOps = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
-    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-        android.os.Process.myUid(), getPackageName());
-    if (mode == AppOpsManager.MODE_ALLOWED) {
-      return true;
-    }
-    appOps.startWatchingMode(AppOpsManager.OPSTR_GET_USAGE_STATS,
-        getApplicationContext().getPackageName(),
-        new AppOpsManager.OnOpChangedListener() {
-          @Override
-          @TargetApi(Build.VERSION_CODES.M)
-          public void onOpChanged(String op, String packageName) {
-            int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(),
-                getPackageName());
-            if (mode != AppOpsManager.MODE_ALLOWED) {
-              return;
-            }
-            appOps.stopWatchingMode(this);
-            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-            if (getIntent().getExtras() != null) {
-              intent.putExtras(getIntent().getExtras());
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(intent);
-          }
-        });
-    requestReadNetworkHistoryAccess();
-    return false;
-  }
+  // private boolean hasPermissionToReadNetworkHistory() {
+  //   if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+  //     return true;
+  //   }
+  //   final AppOpsManager appOps = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+  //   int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+  //       android.os.Process.myUid(), getPackageName());
+  //   if (mode == AppOpsManager.MODE_ALLOWED) {
+  //     return true;
+  //   }
+  //   appOps.startWatchingMode(AppOpsManager.OPSTR_GET_USAGE_STATS,
+  //       getApplicationContext().getPackageName(),
+  //       new AppOpsManager.OnOpChangedListener() {
+  //         @Override
+  //         @TargetApi(Build.VERSION_CODES.M)
+  //         public void onOpChanged(String op, String packageName) {
+  //           int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(),
+  //               getPackageName());
+  //           if (mode != AppOpsManager.MODE_ALLOWED) {
+  //             return;
+  //           }
+  //           appOps.stopWatchingMode(this);
+  //           Intent intent = new Intent(MainActivity.this, MainActivity.class);
+  //           if (getIntent().getExtras() != null) {
+  //             intent.putExtras(getIntent().getExtras());
+  //           }
+  //           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+  //           getApplicationContext().startActivity(intent);
+  //         }
+  //       });
+  //   requestReadNetworkHistoryAccess();
+  //   return false;
+  // }
 
-  private boolean hasPermissionToReadPhoneStats() {
-    if (ActivityCompat.checkSelfPermission(this,
-        Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // private boolean hasPermissionToReadPhoneStats() {
+  //   if (ActivityCompat.checkSelfPermission(this,
+  //       Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  private void requestReadNetworkHistoryAccess() {
-    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-    startActivity(intent);
-  }
+  // private void requestReadNetworkHistoryAccess() {
+  //   Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+  //   startActivity(intent);
+  // }
 
-  private void requestPhoneStateStats() {
-    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_PHONE_STATE },
-        READ_PHONE_STATE_REQUEST);
-  }
+  // private void requestPhoneStateStats() {
+  //   ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_PHONE_STATE },
+  //       READ_PHONE_STATE_REQUEST);
+  // }
 
   // Continuation of main module
   @Override
