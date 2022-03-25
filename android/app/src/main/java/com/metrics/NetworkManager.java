@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -23,30 +24,37 @@ public class NetworkManager extends ReactContextBaseJavaModule {
 
     NetworkStatsManager networkStatsManager;
     int packageUid;
+    private static ReactApplicationContext reactContext;
+//    private Context reactContext;
 
     public NetworkManager( ReactApplicationContext context) {
+
         super(context);
+        reactContext = context;
     }
 
-    public NetworkManager(NetworkStatsManager networkStatsManager, int packageUid) {
-//        this.networkStatsManager =  NetworkStatsManager;
-        this.packageUid = packageUid;
-    }
+
 
     public long getAllRxBytesMobile(Context context) {
         NetworkStats.Bucket bucket;
         try {
-            bucket = self.networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE,
+            bucket = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE,
                     getSubscriberId(context, ConnectivityManager.TYPE_MOBILE),
                     0,
                     System.currentTimeMillis());
-        } catch (java.rmi.RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getAllRxBytesMobile Exception: "+ e.getMessage());
             return -1;
         }
         return bucket.getRxBytes();
     }
 
+    @ReactMethod
+    public void show(){
+        Toast.makeText(reactContext, "Hi from android", Toast.LENGTH_LONG).show();
+    }
+    
+    @ReactMethod
     public long getAllTxBytesMobile(Context context) {
         NetworkStats.Bucket bucket;
         try {
@@ -62,6 +70,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
         return bucket.getTxBytes();
     }
 
+    @ReactMethod
     public long getAllRxBytesWifi() {
         NetworkStats.Bucket bucket;
         try {
@@ -69,7 +78,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
                     "",
                     0,
                     System.currentTimeMillis());
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getAllRxBytesWifi Exception: "+ e.getMessage());
 
             return -1;
@@ -84,7 +93,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
                     "",
                     0,
                     System.currentTimeMillis());
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getAllTxBytesWifi Exception: "+ e.getMessage());
 
             return -1;
@@ -101,7 +110,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
                     0,
                     System.currentTimeMillis(),
                     packageUid);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getPackageRxBytesMobile Exception: "+ e.getMessage());
 
             return -1;
@@ -126,7 +135,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
                     0,
                     System.currentTimeMillis(),
                     packageUid);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getPackageTxBytesMobile Exception: "+ e.getMessage());
 
             return -1;
@@ -151,7 +160,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
                     0,
                     System.currentTimeMillis(),
                     packageUid);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getPackageRxBytesWifi Exception: "+ e.getMessage());
 
             return -1;
@@ -176,7 +185,7 @@ public class NetworkManager extends ReactContextBaseJavaModule {
                     0,
                     System.currentTimeMillis(),
                     packageUid);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.d("NetworkManager", "NetworkManager.getPackageTxBytesWifi Exception: "+ e.getMessage());
 
             return -1;

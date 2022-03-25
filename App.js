@@ -11,15 +11,16 @@ import {
   NativeModules
 } from 'react-native';
 
+import NetworkManager from './NetworkModule';
+
 // import { RNDataUsageLibrary } from 'react-native-data-usage-library';
 // import RNDatausagecheck from 'react-native-datausagecheck';
 // import CallLogs from 'react-native-call-log';
 
 export default function App() {
-  useEffect(()=>{
-    const { NetworkManager } = NativeModules;
-    console.error(Object.getOwnPropertyNames( NativeModules ));
-  })
+  // NetworkManager.show();
+  // console.log(NetworkManager)
+  console.error(NativeModules)
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -27,14 +28,7 @@ export default function App() {
           How to Access Call Logs of Android Devices
           from React Native App
         </Text>
-        {/* <FlatList
-          data={listData}
-          //data defined in constructor
-          ItemSeparatorComponent={ItemSeparatorView}
-          //Item Separator View
-          renderItem={ItemView}
-          keyExtractor={(item, index) => index.toString()}
-        /> */}
+       
       </View>
     </SafeAreaView>
   );
